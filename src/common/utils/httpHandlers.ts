@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { ServiceResponse } from "../models/serviceResponse";
 import jwt from "jsonwebtoken";
+import { Logger } from "tslog";
 
 export const handleServiceResponse = (
   serviceResponse: ServiceResponse<any>,
@@ -28,3 +29,5 @@ export const verifyJWT = (token: string) => {
     return;
   }
 };
+
+export const apiLogger = new Logger({ name: "api error" });

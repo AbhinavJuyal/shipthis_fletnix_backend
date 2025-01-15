@@ -6,6 +6,7 @@ import { idValidatior } from "@/common/utils/validators";
 import { Request, Response } from "express";
 import { PaginatedResponse } from "@/common/types";
 import z from "zod";
+import { apiLogger } from "@/common/utils/httpHandlers";
 
 const searchTypeSchema = z
   .union([
@@ -35,7 +36,7 @@ export class BrowseService {
       const titles = await this.browseRepository.getAll();
       return ServiceResponse.success<Media[]>("Titles Found", titles);
     } catch (error) {
-      console.log(error, "error");
+      apiLogger.error(error);
       return ServiceResponse.failure(
         "An error occured while retriving titles",
         null,
@@ -80,7 +81,7 @@ export class BrowseService {
         totalRecords,
       });
     } catch (error) {
-      console.log(error);
+      apiLogger.error(error);
       return ServiceResponse.failure(
         "An error occured while retriving titles",
         null,
@@ -106,7 +107,7 @@ export class BrowseService {
 
       return ServiceResponse.success<Media>("Titles Found", record);
     } catch (error) {
-      console.log(error);
+      apiLogger.error(error);
       return ServiceResponse.failure(
         "An error occured while retriving title",
         null,

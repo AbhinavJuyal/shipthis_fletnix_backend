@@ -3,7 +3,7 @@ import { AuthRepository } from "./authRepository";
 import { ServiceResponse } from "@/common/models/serviceResponse";
 import z from "zod";
 import { StatusCodes } from "http-status-codes";
-import { generateJWT } from "@/common/utils/httpHandlers";
+import { apiLogger, generateJWT } from "@/common/utils/httpHandlers";
 
 const signupFormData = z.object({
   email: z.string(),
@@ -40,6 +40,7 @@ export class AuthService {
         accessToken: string;
       }>("User created!", { user: newUser, accessToken }, StatusCodes.CREATED);
     } catch (error) {
+      apiLogger.error(error);
       return ServiceResponse.failure(
         "User creation failed",
         null,
@@ -72,6 +73,7 @@ export class AuthService {
         accessToken,
       });
     } catch (error) {
+      apiLogger.error(error);
       return ServiceResponse.failure(
         "User login failed",
         null,
