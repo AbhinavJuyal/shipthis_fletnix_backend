@@ -1,15 +1,18 @@
 import app from "@/server";
 // initializing prisma client
 import "@/db";
+import { Logger } from "tslog";
+import { env } from "./common/utils/envConfig";
 
-const server = app.listen(8080, () => {
-  console.log("app is running on port 8080");
+const logger = new Logger({ name: "server " });
+const server = app.listen(env.PORT, () => {
+  logger.info(`app is running on port ${env.PORT}`);
 });
 
 const onCloseSignal = () => {
-  console.log("sigint received, shutting down");
+  logger.info("sigint received, shutting down");
   server.close(() => {
-    console.log("server closed");
+    logger.info("server closed");
     process.exit();
   });
   setTimeout(() => process.exit(1), 10000).unref(); // Force shutdown after 10s

@@ -6,15 +6,14 @@ import { authRouter } from "@/api/auth/authRouter";
 import dotenv from "dotenv";
 import { AuthMiddleware } from "./middlewares/authMiddleware";
 import morgan from "morgan";
-
-dotenv.config();
+import { env } from "./common/utils/envConfig";
 
 const app: Express = express();
 
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({ origin: env.CORS_ORIGIN }));
 app.use(helmet());
 app.use(morgan("combined"));
 

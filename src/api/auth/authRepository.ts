@@ -1,8 +1,9 @@
+import { env } from "@/common/utils/envConfig";
 import { prisma } from "@/db";
 import { Users } from "@prisma/client";
 import bcrypt from "bcrypt";
 
-const saltRounds = Number(process.env.HASH_SALT_ROUNDS) || 10;
+const saltRounds = env.HASH_SALT_ROUNDS;
 
 export class AuthRepository {
   async createUser({ email, password, age }: Users) {
