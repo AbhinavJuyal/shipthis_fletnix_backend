@@ -2,28 +2,11 @@ import { ServiceResponse } from "@/common/models/serviceResponse";
 import { BrowseRepository } from "./browseRepository";
 import { Media } from "@prisma/client";
 import { StatusCodes } from "http-status-codes";
-import { idValidatior } from "@/common/utils/validators";
 import { Request, Response } from "express";
 import { PaginatedResponse } from "@/common/types";
 import z from "zod";
 import { apiLogger } from "@/common/utils/httpHandlers";
-
-const searchTypeSchema = z
-  .union([
-    z.literal("Movie"),
-    z.literal("TV Show"),
-    z.literal("Cast"),
-    z.literal(""),
-  ])
-  .optional();
-
-const getAllPagedSchema = z.object({
-  page: idValidatior,
-  pageSize: idValidatior,
-  searchTerm: z.string().optional(),
-  searchType: searchTypeSchema,
-});
-
+import { GetAllPagedQuery } from './browseModel';
 export class BrowseService {
   private browseRepository: BrowseRepository;
 
@@ -52,7 +35,7 @@ export class BrowseService {
     const query = req.query;
     const user = res.locals.user;
     try {
-      const { success: validationSuccess } = getAllPagedSchema.safeParse(query);
+      const { success: validationSuccess } = GetAllPagedQuery.safeParse(query);
 
       if (!validationSuccess) {
         return ServiceResponse.failure(
