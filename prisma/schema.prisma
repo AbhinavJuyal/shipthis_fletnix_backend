@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator zod {
+  provider = "zod-prisma-types"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Media {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  cast         String
+  country      String
+  date_added   String
+  description  String
+  director     String
+  duration     String
+  listed_in    String
+  rating       String
+  release_year Int
+  show_id      String
+  title        String
+  type         String
+
+  @@map("media")
+}
+
+model Users {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullname   String   @default("Anonymous User")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  email      String   @unique()
+  age        Int
+  password   String
+
+  @@map("users")
+}
