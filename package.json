@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch --clear-screen=true src/index.ts",
-    "build": "rimraf ./dist && tsup src/index.ts --format esm",
+    "build": "tsup src/index.ts --format esm",
     "start": "node dist/index.js"
   },
   "keywords": [],
